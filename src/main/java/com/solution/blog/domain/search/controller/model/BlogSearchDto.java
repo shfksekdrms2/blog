@@ -1,6 +1,7 @@
 package com.solution.blog.domain.search.controller.model;
 
 import com.solution.daum.domain.model.DaumBlogDocumentDto;
+import com.solution.naver.domain.model.ItemDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +31,18 @@ public class BlogSearchDto {
         dto.setBlogName(daumBlogDocumentDto.getBlogName());
         dto.setThumbnail(daumBlogDocumentDto.getThumbnail());
         dto.setDatetime(daumBlogDocumentDto.getDatetime());
+
+        return dto;
+    }
+
+    public static BlogSearchDto of(ItemDto itemDto) {
+        BlogSearchDto dto = new BlogSearchDto();
+        dto.setTitle(itemDto.getTitle());
+        dto.setContents(itemDto.getDescription());
+        dto.setUrl(itemDto.getLink());
+        dto.setBlogName(itemDto.getBloggerName());
+        dto.setThumbnail("");
+        dto.setDatetime(itemDto.getPostDate().atTime(0, 0));
 
         return dto;
     }
