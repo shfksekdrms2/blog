@@ -1,11 +1,12 @@
 package com.solution.blog.domain.search.component;
 
-import com.solution.blog.domain.page.PageableDto;
-import com.solution.blog.domain.search.component.model.DaumBlogMetaDto;
+import com.solution.blog.domain.search.component.model.DaumBlogDocumentDto;
 import com.solution.blog.domain.search.component.model.DaumBlogRs;
 import com.solution.blog.domain.search.controller.model.BlogSearchRs;
 import com.solution.blog.domain.search.controller.model.SortType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -25,9 +26,16 @@ public class BlogComponent {
         // daum blog open api
         DaumBlogRs daumBlogRs = getDaumBlogRs(keyword, sortType, page, size);
 
-        DaumBlogMetaDto meta = daumBlogRs.getMeta();
-        PageableDto pageableDto = getPageableDto(page, meta.getTotalCount());
-        return BlogSearchRs.of(daumBlogRs.getDocuments(), pageableDto);
+        // page 설정
+        PageImpl<DaumBlogDocumentDto> daumBlogDocumentPage = getDaumBlogDocumentPage(page, size, daumBlogRs);
+        return BlogSearchRs.of(daumBlogDocumentPage);
+    }
+
+    private PageImpl<DaumBlogDocumentDto> getDaumBlogDocumentPage(Integer page, Integer size, DaumBlogRs daumBlogRs) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        PageImpl<DaumBlogDocumentDto> daumBlogDocumentDtoPage =
+                new PageImpl<>(daumBlogRs.getDocuments(), pageRequest, daumBlogRs.getMeta().getTotalCount());
+        return daumBlogDocumentDtoPage;
     }
 
     private DaumBlogRs getDaumBlogRs(String keyword, SortType sortType, Integer page, Integer size) {
@@ -39,13 +47,6 @@ public class BlogComponent {
                 .retrieve()
                 .bodyToMono(DaumBlogRs.class)
                 .block();
-    }
-
-    private PageableDto getPageableDto(Integer page, Integer totalCount) {
-        PageableDto pageableDto = new PageableDto();
-        pageableDto.setCurrentPage(page);
-        pageableDto.setTotalCount(totalCount);
-        return pageableDto;
     }
 
     private UriComponents getUriComponents(String keyword, SortType sortType, Integer page, Integer size) {
