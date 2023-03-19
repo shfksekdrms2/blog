@@ -21,9 +21,10 @@ public class BlogSearchController {
             description = "키워드 검색, 정확도/최신순 검색, pagination, 다음 -> 네이버 검색순")
     @GetMapping("/search")
     public BlogSearchRs search(@RequestParam(value = "keyword") String keyword,
-                               @RequestParam(value = "sortType", required = false, defaultValue = "ACCURACY") SortType sortType) {
-
-        return blogComponent.searchBlog(keyword, sortType);
+                               @RequestParam(value = "sortType", required = false, defaultValue = "ACCURACY") SortType sortType,
+                               @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                               @RequestParam(value = "size", required = false, defaultValue = "10") Integer size) {
+        return blogComponent.searchBlog(keyword, sortType, page, size);
     }
 
 

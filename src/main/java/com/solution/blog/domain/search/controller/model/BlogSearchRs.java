@@ -3,8 +3,6 @@ package com.solution.blog.domain.search.controller.model;
 import com.solution.blog.domain.page.PageableDto;
 import com.solution.blog.domain.page.PageableRs;
 import com.solution.blog.domain.search.component.model.DaumBlogDocumentDto;
-import com.solution.blog.domain.search.component.model.DaumBlogMetaDto;
-import com.solution.blog.domain.search.component.model.DaumBlogRs;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,14 +17,10 @@ public class BlogSearchRs extends PageableRs {
     @Schema(description = "내용")
     List<BlogSearchDto> documents;
 
-    public static BlogSearchRs of(DaumBlogRs daumBlogRs) {
+    public static BlogSearchRs of(List<DaumBlogDocumentDto> documents, PageableDto pageableDto) {
         BlogSearchRs rs = new BlogSearchRs();
-        rs.setDocuments(daumBlogRs.getDocuments());
-
-        DaumBlogMetaDto meta = daumBlogRs.getMeta();
-        PageableDto pageableDto = PageableDto.of(meta.getTotalCount());
+        rs.setDocuments(documents);
         rs.setPageInfo(pageableDto);
-
         return rs;
     }
 

@@ -1,5 +1,7 @@
 package com.solution.blog.domain.search.component;
 
+import com.solution.blog.domain.page.PageableDto;
+import com.solution.blog.domain.search.component.model.DaumBlogMetaDto;
 import com.solution.blog.domain.search.component.model.DaumBlogRs;
 import com.solution.blog.domain.search.controller.model.BlogSearchRs;
 import com.solution.blog.domain.search.controller.model.SortType;
@@ -14,34 +16,46 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class BlogComponent {
 
-    private final String REST_API_KEY = "408848115a7af9b9806f8b2d9a0666a0";
-
     private final WebClient webClient;
 
-    public BlogSearchRs searchBlog(String keyword, SortType sortType) {
+    private final String REST_API_KEY = "408848115a7af9b9806f8b2d9a0666a0";
 
-        UriComponents uriComponents = getUriComponents(keyword, sortType);
+    public BlogSearchRs searchBlog(String keyword, SortType sortType, Integer page, Integer size) {
 
-        DaumBlogRs daumBlogRs =
-                webClient.get()
-                        .uri(uriComponents.toUri())
-                        .header(HttpHeaders.AUTHORIZATION, "KakaoAK " + REST_API_KEY)
-                        .retrieve()
-                        .bodyToMono(DaumBlogRs.class)
-                        .block();
+        // daum blog open api
+        DaumBlogRs daumBlogRs = getDaumBlogRs(keyword, sortType, page, size);
 
-
-        return BlogSearchRs.of(daumBlogRs);
+        DaumBlogMetaDto meta = daumBlogRs.getMeta();
+        PageableDto pageableDto = getPageableDto(page, meta.getTotalCount());
+        return BlogSearchRs.of(daumBlogRs.getDocuments(), pageableDto);
     }
 
-    private UriComponents getUriComponents(String keyword, SortType sortType) {
+    private DaumBlogRs getDaumBlogRs(String keyword, SortType sortType, Integer page, Integer size) {
+        UriComponents uriComponents = getUriComponents(keyword, sortType, page, size);
+
+        return webClient.get()
+                .uri(uriComponents.toUri())
+                .header(HttpHeaders.AUTHORIZATION, "KakaoAK " + REST_API_KEY)
+                .retrieve()
+                .bodyToMono(DaumBlogRs.class)
+                .block();
+    }
+
+    private PageableDto getPageableDto(Integer page, Integer totalCount) {
+        PageableDto pageableDto = new PageableDto();
+        pageableDto.setCurrentPage(page);
+        pageableDto.setTotalCount(totalCount);
+        return pageableDto;
+    }
+
+    private UriComponents getUriComponents(String keyword, SortType sortType, Integer page, Integer size) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host("dapi.kakao.com")
                 .path("/v2/search/blog")
                 .queryParam("sort", sortType.getKakaoName())
-                .queryParam("page", 1)
-                .queryParam("size", 10)
+                .queryParam("page", page)
+                .queryParam("size", size)
                 .queryParam("query", keyword)
                 .build();
         return uriComponents;
