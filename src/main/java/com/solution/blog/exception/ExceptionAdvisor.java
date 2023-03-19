@@ -9,5 +9,6 @@ public class ExceptionAdvisor {
     @ExceptionHandler(Exception.class)
     public void exceptionHandler(Exception e) {
         // todo 내용 추가 필요
+        // https://mangkyu.tistory.com/205 참고
     }
 }
