@@ -24,6 +24,7 @@ public class BlogComponent {
     public BlogSearchRs searchBlog(String keyword, SortType sortType, Integer page, Integer size) {
 
         // daum blog open api
+        // todo 예외 처리 필요
         DaumBlogRs daumBlogRs = getDaumBlogRs(keyword, sortType, page, size);
 
         // page 설정
