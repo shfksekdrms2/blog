@@ -1,4 +1,4 @@
-package com.solution.blog.domain.search.component.model;
+package com.solution.daum.domain.model;
 
 import lombok.Getter;
 import lombok.Setter;

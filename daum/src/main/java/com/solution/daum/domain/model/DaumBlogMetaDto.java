@@ -1,4 +1,4 @@
-package com.solution.blog.domain.search.component.model;
+package com.solution.daum.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

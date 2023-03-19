@@ -1,11 +1,11 @@
-package com.solution.blog.config;
+package com.solution.daum.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class WebClientConfig {
+public class DaumWebClientConfig {
 
     @Bean
     public WebClient webClient() {

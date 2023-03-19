@@ -1,7 +1,7 @@
 package com.solution.blog.domain.search.controller.model;
 
 import com.solution.blog.domain.page.PageableRs;
-import com.solution.blog.domain.search.component.model.DaumBlogDocumentDto;
+import com.solution.daum.domain.model.DaumBlogDocumentDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public class BlogSearchRs extends PageableRs {
     public void setDocuments(List<DaumBlogDocumentDto> documents) {
         this.documents =
                 documents.stream()
-                        .map(DaumBlogDocumentDto::of)
+                        .map(BlogSearchDto::of)
                         .collect(Collectors.toList());
     }
 

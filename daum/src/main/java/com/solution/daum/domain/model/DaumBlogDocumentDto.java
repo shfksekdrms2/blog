@@ -1,8 +1,7 @@
-package com.solution.blog.domain.search.component.model;
+package com.solution.daum.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.solution.blog.domain.search.controller.model.BlogSearchDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,15 +32,4 @@ public class DaumBlogDocumentDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private LocalDateTime datetime;
 
-    public static BlogSearchDto of(DaumBlogDocumentDto daumBlogDocumentDto) {
-        BlogSearchDto dto = new BlogSearchDto();
-        dto.setTitle(daumBlogDocumentDto.getTitle());
-        dto.setContents(daumBlogDocumentDto.getContents());
-        dto.setUrl(daumBlogDocumentDto.getUrl());
-        dto.setBlogName(daumBlogDocumentDto.getBlogName());
-        dto.setThumbnail(daumBlogDocumentDto.getThumbnail());
-        dto.setDatetime(daumBlogDocumentDto.getDatetime());
-
-        return dto;
-    }
 }
