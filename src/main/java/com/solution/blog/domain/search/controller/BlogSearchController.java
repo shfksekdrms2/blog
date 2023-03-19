@@ -1,5 +1,8 @@
 package com.solution.blog.domain.search.controller;
 
+import com.solution.blog.domain.search.component.BlogComponent;
+import com.solution.blog.domain.search.controller.model.BlogSearchRs;
+import com.solution.blog.domain.search.controller.model.SortType;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class BlogSearchController {
 
+    private final BlogComponent blogComponent;
+
     @Operation(summary = "블로그 검색을 위한 메소드",
             description = "키워드 검색, 정확도/최신순 검색, pagination, 다음 -> 네이버 검색순")
     @GetMapping("/search")
-    public void search(@RequestParam(value = "keyword") String keyword) {
+    public BlogSearchRs search(@RequestParam(value = "keyword") String keyword,
+                               @RequestParam(value = "sortType", required = false, defaultValue = "ACCURACY") SortType sortType) {
 
+        return blogComponent.searchBlog(keyword, sortType);
     }
+
+
 }
