@@ -4,6 +4,7 @@ import com.solution.blog.domain.search.component.model.DaumBlogDocumentDto;
 import com.solution.blog.domain.search.component.model.DaumBlogRs;
 import com.solution.blog.domain.search.controller.model.BlogSearchRs;
 import com.solution.blog.domain.search.controller.model.SortType;
+import com.solution.blog.domain.search.service.BlogSearchWordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class BlogComponent {
 
     private final WebClient webClient;
+    
+    private final BlogSearchWordService blogSearchWordService;
 
     private final String REST_API_KEY = "408848115a7af9b9806f8b2d9a0666a0";
 
@@ -26,6 +29,9 @@ public class BlogComponent {
         // daum blog open api
         // todo 예외 처리 필요
         DaumBlogRs daumBlogRs = getDaumBlogRs(keyword, sortType, page, size);
+
+        // 키워드 검색 로그 저장
+        blogSearchWordService.create(keyword);
 
         // page 설정
         PageImpl<DaumBlogDocumentDto> daumBlogDocumentPage = getDaumBlogDocumentPage(page, size, daumBlogRs);

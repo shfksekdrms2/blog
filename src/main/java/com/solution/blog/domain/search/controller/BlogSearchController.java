@@ -30,5 +30,4 @@ public class BlogSearchController {
         return blogComponent.searchBlog(keyword, sortType, page, size);
     }
 
-
 }
