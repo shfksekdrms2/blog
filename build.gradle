@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.6.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "com.ewerk.gradle.plugins.querydsl" version '1.0.10'
 }
 
 group = 'com.solution'
@@ -22,6 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
@@ -33,7 +35,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //querydsl 추가
+    implementation "com.querydsl:querydsl-jpa:5.0.0"
+    implementation "com.querydsl:querydsl-apt:5.0.0"
 
     implementation project(':naver')
     implementation project(':daum')
@@ -41,6 +45,33 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+// querydsl 사용할 경로 지정합니다.
+def querydslDir = "$buildDir/generated/querydsl"
+
+// JPA 사용여부 및 사용 경로 설정
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+// build시 사용할 sourceSet 추가 설정
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+// querydsl 컴파일 시 사용할 옵션 설정
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+// querydsl이 compileClassPath를 상속하도록 설정
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
 }
 
 jar {
