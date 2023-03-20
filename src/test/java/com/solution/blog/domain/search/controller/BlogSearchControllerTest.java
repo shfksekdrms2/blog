@@ -63,7 +63,7 @@ class BlogSearchControllerTest {
                 )
                 .andExpect(
                         MockMvcResultMatchers.jsonPath("$.code")
-                                .value("validationException")
+                                .value("ValidationException")
                 )
                 .andReturn();
 
