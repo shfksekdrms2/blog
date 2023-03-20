@@ -19,7 +19,7 @@ public class ExceptionAdvisor {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(
-                        createBody("validationException", e.getMessage())
+                        createBody("ValidationException", e.getMessage())
                 );
     }
 
