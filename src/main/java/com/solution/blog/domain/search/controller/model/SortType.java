@@ -8,12 +8,12 @@ public enum SortType {
     RECENCY("최신순", "recency", "date");
 
     private final String name;
-    private final String kakaoName;
+    private final String daumName;
     private final String naverName;
 
-    SortType(String name, String kakaoName, String naverName) {
+    SortType(String name, String daumName, String naverName) {
         this.name = name;
-        this.kakaoName = kakaoName;
+        this.daumName = daumName;
         this.naverName = naverName;
     }
 }

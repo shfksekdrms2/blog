@@ -30,7 +30,7 @@ public class BlogComponent {
 
         PageRequest pageRequest = PageRequest.of(page, size);
         // daum blog open api
-        DaumBlogRs daumBlogRs = daumClient.getDaumBlogRs(keyword, sortType.getKakaoName(), page, size);
+        DaumBlogRs daumBlogRs = daumClient.getDaumBlogRs(keyword, sortType.getDaumName(), page, size);
         if (daumBlogRs.getSuccessYn()) {
             // page 설정
             PageImpl<DaumBlogDocumentDto> daumBlogDocumentPage = getDaumBlogDocumentPage(daumBlogRs, pageRequest);

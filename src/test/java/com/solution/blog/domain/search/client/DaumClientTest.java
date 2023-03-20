@@ -19,7 +19,7 @@ class DaumClientTest {
     public void requirementTest() throws Exception {
         // given
         String keyword = "123";
-        String sortType = SortType.RECENCY.getKakaoName();
+        String sortType = SortType.RECENCY.getDaumName();
         Integer page = 1;
         Integer size = 10;
 

@@ -1,5 +1,6 @@
 package com.solution.blog.domain.search.client;
 
+import com.solution.blog.domain.search.controller.model.SortType;
 import com.solution.naver.domain.client.NaverClient;
 import com.solution.naver.domain.model.NaverBlogRs;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +19,9 @@ class NaverClientTest {
     public void requirementTest() throws Exception {
         // given
         String keyword = "123";
+        String sortType = SortType.RECENCY.getNaverName();
+        Integer page = 1;
+        Integer size = 10;
 
         // when
         // then
