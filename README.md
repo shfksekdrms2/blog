@@ -1,6 +1,9 @@
 # blog
 블로그 검색 서비스
 
+jar 파일 다운로드 경로
+- 
+
 실행 방법 & 사용 방법
 - java -jar sj_blog.jar
 - localhost:8080/swagger-ui/index.html 접속
