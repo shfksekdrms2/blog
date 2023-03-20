@@ -4,6 +4,12 @@
 실행 방법 & 사용 방법
 - java -jar xxx.jar
 - localhost:8080/swagger-ui/index.html 접속
+- http://localhost:8080/h2-console/login.do 에 접속 하여 db 확인 가능
+  - saved Settings: Generic H2 (Server)
+  - Driver Class: org.h2.Driver
+  - JDBC URL: jdbc:h2:mem:testdb
+  - User Name: sa
+  - Password: 
 - 블로그 검색 > 블로그 검색을 위한 메소드
   - /blog/search 를 통해 블로그 검색
 - 블로그 인기 검색어 목록 > 블로그 인기 검색어 검색을 위한 메소드
