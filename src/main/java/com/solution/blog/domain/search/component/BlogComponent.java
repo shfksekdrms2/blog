@@ -25,34 +25,37 @@ public class BlogComponent {
 
     public BlogSearchRs searchBlog(String keyword, SortType sortType, Integer page, Integer size) {
 
-        BlogSearchRs rs;
-        try {
-            // daum blog open api
-            DaumBlogRs daumBlogRs = daumClient.getDaumBlogRs(keyword, sortType.getKakaoName(), page, size);
-            // page 설정
-            PageImpl<DaumBlogDocumentDto> daumBlogDocumentPage = getDaumBlogDocumentPage(page, size, daumBlogRs);
-            rs = BlogSearchRs.ofDaum(daumBlogDocumentPage);
-        } catch (Exception e) {
-            // naver blog open api
-            NaverBlogRs naverBlogRs = naverClient.getNaverBlogRs(keyword, sortType.getNaverName(), page, size);
-            PageImpl<ItemDto> naverBlogDocumentPage = getNaverBlogDocumentPage(page, size, naverBlogRs);
-            rs = BlogSearchRs.ofNaver(naverBlogDocumentPage);
-        }
-
         // 키워드 검색 로그 저장
         blogSearchWordService.create(keyword);
 
-        return rs;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        // daum blog open api
+        DaumBlogRs daumBlogRs = daumClient.getDaumBlogRs(keyword, sortType.getKakaoName(), page, size);
+        if (daumBlogRs.getSuccessYn()) {
+            // page 설정
+            PageImpl<DaumBlogDocumentDto> daumBlogDocumentPage = getDaumBlogDocumentPage(daumBlogRs, pageRequest);
+            return BlogSearchRs.ofDaum(daumBlogDocumentPage);
+        }
+
+        // naver blog open api
+        NaverBlogRs naverBlogRs = naverClient.getNaverBlogRs(keyword, sortType.getNaverName(), page, size);
+        if (naverBlogRs.getSuccessYn()) {
+            PageImpl<ItemDto> naverBlogDocumentPage = getNaverBlogDocumentPage(naverBlogRs, pageRequest);
+            return BlogSearchRs.ofNaver(naverBlogDocumentPage);
+        }
+
+        // 초기화
+        BlogSearchRs blogSearchRs = new BlogSearchRs();
+        blogSearchRs.setPageInfo(pageRequest);
+        return blogSearchRs;
     }
 
-    private PageImpl<ItemDto> getNaverBlogDocumentPage(Integer page, Integer size, NaverBlogRs naverBlogRs) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+    private PageImpl<ItemDto> getNaverBlogDocumentPage(NaverBlogRs naverBlogRs, PageRequest pageRequest) {
         PageImpl<ItemDto> itemDtoPage = new PageImpl<>(naverBlogRs.getItems(), pageRequest, naverBlogRs.getTotal());
         return itemDtoPage;
     }
 
-    private PageImpl<DaumBlogDocumentDto> getDaumBlogDocumentPage(Integer page, Integer size, DaumBlogRs daumBlogRs) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+    private PageImpl<DaumBlogDocumentDto> getDaumBlogDocumentPage(DaumBlogRs daumBlogRs, PageRequest pageRequest) {
         PageImpl<DaumBlogDocumentDto> daumBlogDocumentDtoPage =
                 new PageImpl<>(daumBlogRs.getDocuments(), pageRequest, daumBlogRs.getMeta().getTotalCount());
         return daumBlogDocumentDtoPage;

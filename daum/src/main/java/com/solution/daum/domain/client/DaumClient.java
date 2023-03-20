@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -18,13 +19,19 @@ public class DaumClient {
 
     public DaumBlogRs getDaumBlogRs(String keyword, String sortType, Integer page, Integer size) {
         UriComponents uriComponents = getUriComponents(keyword, sortType, page, size);
-
-        return webClient.get()
-                .uri(uriComponents.toUri())
-                .header(HttpHeaders.AUTHORIZATION, "KakaoAK " + REST_API_KEY)
-                .retrieve()
-                .bodyToMono(DaumBlogRs.class)
-                .block();
+        DaumBlogRs daumBlogRs;
+        try {
+            daumBlogRs = webClient.get()
+                    .uri(uriComponents.toUri())
+                    .header(HttpHeaders.AUTHORIZATION, "KakaoAK " + REST_API_KEY)
+                    .retrieve()
+                    .bodyToMono(DaumBlogRs.class)
+                    .block();
+        } catch (WebClientException webClientException) {
+            daumBlogRs = new DaumBlogRs();
+            daumBlogRs.setSuccessYn(Boolean.FALSE);
+        }
+        return daumBlogRs;
     }
 
     public UriComponents getUriComponents(String keyword, String sortType, Integer page, Integer size) {

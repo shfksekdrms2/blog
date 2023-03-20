@@ -4,6 +4,7 @@ import com.solution.naver.domain.model.NaverBlogRs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,14 +22,20 @@ public class NaverClient {
 
     public NaverBlogRs getNaverBlogRs(String keyword, String sortType, Integer page, Integer size) {
         UriComponents uriComponents = getUriComponents(keyword, sortType, page, size);
-
-        return webClient.get()
-                .uri(uriComponents.toUri())
-                .header(X_NAVER_CLIENT_ID_HEADER, X_NAVER_CLIENT_ID_VALUE)
-                .header(X_NAVER_CLIENT_SECRET_HEADER, X_NAVER_CLIENT_SECRET_VALUE)
-                .retrieve()
-                .bodyToMono(NaverBlogRs.class)
-                .block();
+        NaverBlogRs naverBlogRs;
+        try {
+            naverBlogRs = webClient.get()
+                    .uri(uriComponents.toUri())
+                    .header(X_NAVER_CLIENT_ID_HEADER, X_NAVER_CLIENT_ID_VALUE)
+                    .header(X_NAVER_CLIENT_SECRET_HEADER, X_NAVER_CLIENT_SECRET_VALUE)
+                    .retrieve()
+                    .bodyToMono(NaverBlogRs.class)
+                    .block();
+        } catch (WebClientException webClientException) {
+            naverBlogRs = new NaverBlogRs();
+            naverBlogRs.setSuccessYn(Boolean.FALSE);
+        }
+        return naverBlogRs;
     }
 
     public UriComponents getUriComponents(String keyword, String sortType, Integer page, Integer size) {

@@ -7,7 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 public class BlogSearchRs extends PageableRs {
 
     @Schema(description = "내용")
-    List<BlogSearchDto> documents;
+    List<BlogSearchDto> documents = new ArrayList<>();
 
     public static BlogSearchRs ofDaum(PageImpl<DaumBlogDocumentDto> daumBlogDocumentDtoPage) {
         BlogSearchRs rs = new BlogSearchRs();

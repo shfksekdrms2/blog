@@ -35,7 +35,7 @@ public class BlogSearchController {
                                @RequestParam(value = "page", required = false, defaultValue = "1")
                                @Min(1) @Max(50) Integer page,
                                @RequestParam(value = "size", required = false, defaultValue = "10")
-                               @Min(1) @Max(50) Integer size) {
+                               /*@Min(1) @Max(50)*/ Integer size) {
         return blogComponent.searchBlog(keyword, sortType, page, size);
     }
 
