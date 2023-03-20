@@ -2,7 +2,7 @@
 블로그 검색 서비스
 
 jar 파일 다운로드 경로
-- https://githb.com/shfksekdrms2/blog/raw/master/sj_blog.jar
+- https://github.com/shfksekdrms2/blog/raw/master/sj_blog.jar
 
 실행 방법 & 사용 방법
 - java -jar sj_blog.jar
