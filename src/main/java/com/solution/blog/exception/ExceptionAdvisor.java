@@ -19,7 +19,7 @@ public class ExceptionAdvisor {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(
-                        createBody(e.getClass().getSimpleName(), e.getMessage())
+                        createBody("validationException", e.getMessage())
                 );
     }
 
@@ -29,17 +29,17 @@ public class ExceptionAdvisor {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(
-                        createBody(e.getClass().getSimpleName(), e.getMessage())
+                        createBody("MethodArgumentTypeMismatchException", e.getMessage())
                 );
     }
 
     // 전체 예외
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException(Exception e) {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleException(RuntimeException e) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(
-                        createBody(e.getClass().getSimpleName(), e.getMessage())
+                        createBody("RuntimeException", e.getMessage())
                 );
     }
 
