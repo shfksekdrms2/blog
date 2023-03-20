@@ -2,7 +2,7 @@
 블로그 검색 서비스
 
 실행 방법 & 사용 방법
-- java -jar xxx.jar
+- java -jar sj_blog.jar
 - localhost:8080/swagger-ui/index.html 접속
     - 블로그 검색 > 블로그 검색을 위한 메소드
         - /blog/search 를 통해 블로그 검색
