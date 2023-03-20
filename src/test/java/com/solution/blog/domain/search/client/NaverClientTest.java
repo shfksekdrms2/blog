@@ -25,7 +25,7 @@ class NaverClientTest {
 
         // when
         // then
-        NaverBlogRs daumBlogRs = naverClient.getNaverBlogRs(keyword, null, null, null);
+        NaverBlogRs daumBlogRs = naverClient.getNaverBlogRs(keyword, sortType, page, size);
 
         Assertions.assertEquals(daumBlogRs.getSuccessYn(), Boolean.TRUE);
     }
