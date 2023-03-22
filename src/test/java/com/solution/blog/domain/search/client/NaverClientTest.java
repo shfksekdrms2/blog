@@ -2,11 +2,12 @@ package com.solution.blog.domain.search.client;
 
 import com.solution.blog.domain.search.controller.model.SortType;
 import com.solution.naver.domain.client.NaverClient;
-import com.solution.naver.domain.model.NaverBlogRs;
+import domain.solution.core.model.controller.BlogSearchRs;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 
 @SpringBootTest
 class NaverClientTest {
@@ -23,11 +24,13 @@ class NaverClientTest {
         Integer page = 1;
         Integer size = 10;
 
+        BlogSearchRs rs = new BlogSearchRs();
+        PageRequest pageRequest = PageRequest.of(page, size);
         // when
         // then
-        NaverBlogRs daumBlogRs = naverClient.getNaverBlogRs(keyword, sortType, page, size);
+        BlogSearchRs blogSearchRs = naverClient.findBlog(rs, keyword, sortType, pageRequest);
 
-        Assertions.assertEquals(daumBlogRs.getSuccessYn(), Boolean.TRUE);
+        Assertions.assertEquals(blogSearchRs.getSuccessYn(), Boolean.TRUE);
     }
 
 }

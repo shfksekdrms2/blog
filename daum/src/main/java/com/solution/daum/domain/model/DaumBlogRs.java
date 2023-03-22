@@ -9,8 +9,6 @@ import java.util.List;
 @Getter
 public class DaumBlogRs {
 
-    private Boolean successYn = Boolean.TRUE;
-
     private DaumBlogMetaDto meta;
 
     private List<DaumBlogDocumentDto> documents;

@@ -1,4 +1,5 @@
 rootProject.name = 'blog'
 include 'naver'
 include 'daum'
+include 'core'
 

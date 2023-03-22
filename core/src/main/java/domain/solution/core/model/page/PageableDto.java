@@ -1,4 +1,4 @@
-package com.solution.blog.domain.page;
+package domain.solution.core.model.page;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

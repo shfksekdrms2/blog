@@ -1,7 +1,7 @@
 package com.solution.blog.domain.search.controller;
 
 import com.solution.blog.domain.search.component.BlogComponent;
-import com.solution.blog.domain.search.controller.model.BlogSearchRs;
+import domain.solution.core.model.controller.BlogSearchRs;
 import com.solution.blog.domain.search.controller.model.SortType;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,4 +1,4 @@
-package com.solution.blog.domain.page;
+package domain.solution.core.model.page;
 
 import lombok.Getter;
 import lombok.Setter;
